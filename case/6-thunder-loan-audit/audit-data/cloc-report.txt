@@ -1,0 +1,27 @@
+xgh@XiangGuanghua:~/Gamer/security-contracts/case/6-thunder-loan-audit$ cloc src
+       8 text files.
+       8 unique files.                              
+       0 files ignored.
+
+github.com/AlDanial/cloc v 1.90  T=0.02 s (384.1 files/s, 36245.5 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Solidity                         8             87            207            461
+-------------------------------------------------------------------------------
+SUM:                             8             87            207            461
+-------------------------------------------------------------------------------
+
+#-- interfaces
+|   #-- IFlashLoanReceiver.sol  
+|   #-- IPoolFactory.sol 
+|   #-- ITSwapPool.sol
+|   #-- IThunderLoan.sol
+#-- protocol
+|   #-- AssetToken.sol
+|   #-- OracleUpgradeable.sol
+|   #-- ThunderLoan.sol
+#-- upgradedProtocol
+    #-- ThunderLoanUpgraded.sol
+
+4 directories, 8 files

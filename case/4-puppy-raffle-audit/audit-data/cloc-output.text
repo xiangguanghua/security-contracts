@@ -1,0 +1,11 @@
+xgh@XiangGuanghua:~/Gamer/security/case/4-puppy-raffle-audit$ cloc src
+       1 text file.
+       1 unique file.                              
+       0 files ignored.
+
+github.com/AlDanial/cloc v 1.90  T=0.01 s (145.0 files/s, 32621.9 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Solidity                         1             30             52            143
+-------------------------------------------------------------------------------
