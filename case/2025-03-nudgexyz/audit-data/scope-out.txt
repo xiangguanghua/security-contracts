@@ -1,0 +1,23 @@
+./src/campaign/NudgeCampaign.sol
+./src/campaign/NudgeCampaignFactory.sol
+./src/campaign/NudgePointsCampaigns.sol
+./src/campaign/interfaces/IBaseNudgeCampaign.sol
+./src/campaign/interfaces/INudgeCampaign.sol
+./src/campaign/interfaces/INudgeCampaignFactory.sol
+./src/campaign/interfaces/INudgePointsCampaign.sol
+
+
+
+#-- campaign
+|   #-- NudgeCampaign.sol
+|   #-- NudgeCampaignFactory.sol
+|   #-- NudgePointsCampaigns.sol
+|   #-- interfaces
+|       #-- IBaseNudgeCampaign.sol
+|       #-- INudgeCampaign.sol
+|       #-- INudgeCampaignFactory.sol
+|       #-- INudgePointsCampaign.sol
+#-- mocks
+    #-- MockTokenDecimals.sol
+    #-- TestERC20.sol
+    #-- TestUSDC.sol

@@ -30,10 +30,10 @@
     - [\[NC-9\] Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor](#nc-9-use-a-modifier-instead-of-a-requireif-statement-for-a-special-msgsender-actor)
     - [\[NC-10\] Constant state variables defined more than once](#nc-10-constant-state-variables-defined-more-than-once)
     - [\[NC-11\] Consider using named mappings](#nc-11-consider-using-named-mappings)
-    - [\[NC-12\] `address`s shouldn't be hard-coded](#nc-12-addresss-shouldnt-be-hard-coded)
+    - [\[NC-12\] `address`s shouldn&#39;t be hard-coded](#nc-12-addresss-shouldnt-be-hard-coded)
     - [\[NC-13\] Adding a `return` statement when the function defines a named return variable, is redundant](#nc-13-adding-a-return-statement-when-the-function-defines-a-named-return-variable-is-redundant)
-    - [\[NC-14\] Take advantage of Custom Error's return value property](#nc-14-take-advantage-of-custom-errors-return-value-property)
-    - [\[NC-15\] Contract does not follow the Solidity style guide's suggested layout ordering](#nc-15-contract-does-not-follow-the-solidity-style-guides-suggested-layout-ordering)
+    - [\[NC-14\] Take advantage of Custom Error&#39;s return value property](#nc-14-take-advantage-of-custom-errors-return-value-property)
+    - [\[NC-15\] Contract does not follow the Solidity style guide&#39;s suggested layout ordering](#nc-15-contract-does-not-follow-the-solidity-style-guides-suggested-layout-ordering)
     - [\[NC-16\] Use Underscores for Number Literals (add an underscore every 3 digits)](#nc-16-use-underscores-for-number-literals-add-an-underscore-every-3-digits)
     - [\[NC-17\] Event is missing `indexed` fields](#nc-17-event-is-missing-indexed-fields)
     - [\[NC-18\] Constants should be defined rather than using magic numbers](#nc-18-constants-should-be-defined-rather-than-using-magic-numbers)
@@ -58,26 +58,26 @@
 
 ## Gas Optimizations
 
-| |Issue|Instances|
-|-|:-|:-:|
-| [GAS-1](#GAS-1) | `a = a + b` is more gas effective than `a += b` for state variables (excluding arrays and mappings) | 6 |
-| [GAS-2](#GAS-2) | Use assembly to check for `address(0)` | 15 |
-| [GAS-3](#GAS-3) | Using bools for storage incurs overhead | 5 |
-| [GAS-4](#GAS-4) | Cache array length outside of loop | 8 |
-| [GAS-5](#GAS-5) | State variables should be cached in stack variables rather than re-reading them from storage | 3 |
-| [GAS-6](#GAS-6) | Use calldata instead of memory for function arguments that do not get mutated | 2 |
-| [GAS-7](#GAS-7) | For Operations that will not overflow, you could use unchecked | 52 |
-| [GAS-8](#GAS-8) | Avoid contract existence checks by using low level calls | 4 |
-| [GAS-9](#GAS-9) | Stack variable used as a cheaper cache for a state variable is only used once | 2 |
-| [GAS-10](#GAS-10) | State variables only set in the constructor should be declared `immutable` | 11 |
-| [GAS-11](#GAS-11) | Functions guaranteed to revert when called by normal users can be marked `payable` | 10 |
-| [GAS-12](#GAS-12) | `++i` costs less gas compared to `i++` or `i += 1` (same for `--i` vs `i--` or `i -= 1`) | 9 |
-| [GAS-13](#GAS-13) | Using `private` rather than `public` for constants, saves gas | 9 |
-| [GAS-14](#GAS-14) | `uint256` to `bool` `mapping`: Utilizing Bitmaps to dramatically save on Gas | 1 |
-| [GAS-15](#GAS-15) | Increments/decrements can be unchecked in for-loops | 8 |
-| [GAS-16](#GAS-16) | Use != 0 instead of > 0 for unsigned integer comparison | 4 |
+|                | Issue                                                                                                   | Instances |
+| -------------- | :------------------------------------------------------------------------------------------------------ | :-------: |
+| [GAS-1](#GAS-1)   | `a = a + b` is more gas effective than `a += b` for state variables (excluding arrays and mappings) |     6     |
+| [GAS-2](#GAS-2)   | Use assembly to check for `address(0)`                                                                |    15    |
+| [GAS-3](#GAS-3)   | Using bools for storage incurs overhead                                                                 |     5     |
+| [GAS-4](#GAS-4)   | Cache array length outside of loop                                                                      |     8     |
+| [GAS-5](#GAS-5)   | State variables should be cached in stack variables rather than re-reading them from storage            |     3     |
+| [GAS-6](#GAS-6)   | Use calldata instead of memory for function arguments that do not get mutated                           |     2     |
+| [GAS-7](#GAS-7)   | For Operations that will not overflow, you could use unchecked                                          |    52    |
+| [GAS-8](#GAS-8)   | Avoid contract existence checks by using low level calls                                                |     4     |
+| [GAS-9](#GAS-9)   | Stack variable used as a cheaper cache for a state variable is only used once                           |     2     |
+| [GAS-10](#GAS-10) | State variables only set in the constructor should be declared `immutable`                            |    11    |
+| [GAS-11](#GAS-11) | Functions guaranteed to revert when called by normal users can be marked `payable`                    |    10    |
+| [GAS-12](#GAS-12) | `++i` costs less gas compared to `i++` or `i += 1` (same for `--i` vs `i--` or `i -= 1`)    |     9     |
+| [GAS-13](#GAS-13) | Using `private` rather than `public` for constants, saves gas                                       |     9     |
+| [GAS-14](#GAS-14) | `uint256` to `bool` `mapping`: Utilizing Bitmaps to dramatically save on Gas                      |     1     |
+| [GAS-15](#GAS-15) | Increments/decrements can be unchecked in for-loops                                                     |     8     |
+| [GAS-16](#GAS-16) | Use != 0 instead of > 0 for unsigned integer comparison                                                 |     4     |
 
-### <a name="GAS-1"></a>[GAS-1] `a = a + b` is more gas effective than `a += b` for state variables (excluding arrays and mappings)
+### `<a name="GAS-1"></a>`[GAS-1] `a = a + b` is more gas effective than `a += b` for state variables (excluding arrays and mappings)
 
 This saves **16 gas per instance.**
 
@@ -116,7 +116,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-2"></a>[GAS-2] Use assembly to check for `address(0)`
+### `<a name="GAS-2"></a>`[GAS-2] Use assembly to check for `address(0)`
 
 *Saves 6 gas per instance*
 
@@ -173,7 +173,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-3"></a>[GAS-3] Using bools for storage incurs overhead
+### `<a name="GAS-3"></a>`[GAS-3] Using bools for storage incurs overhead
 
 Use uint256(1) and uint256(2) for true/false to avoid a Gwarmaccess (100 gas), and to avoid Gsset (20000 gas) when changing from ‘false’ to ‘true’, after having been ‘true’ in the past. See [source](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/58f635312aa21f947cae5f8578638a85aa2519f5/contracts/security/ReentrancyGuard.sol#L23-L27).
 
@@ -210,7 +210,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-4"></a>[GAS-4] Cache array length outside of loop
+### `<a name="GAS-4"></a>`[GAS-4] Cache array length outside of loop
 
 If not cached, the solidity compiler will always read the length of the array during each iteration. That is, if it is a storage array, this is an extra sload operation (100 additional extra gas for each iteration except for the first) and if it is a memory array, this is an extra mload operation (3 additional gas for each iteration except for the first).
 
@@ -253,7 +253,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-5"></a>[GAS-5] State variables should be cached in stack variables rather than re-reading them from storage
+### `<a name="GAS-5"></a>`[GAS-5] State variables should be cached in stack variables rather than re-reading them from storage
 
 The instances below point to the second+ access of a state variable within a function. Caching of a state variable replaces each Gwarmaccess (100 gas) with a much cheaper stack read. Other less obvious fixes/optimizations include having local memory caches of state variable structs, or having local caches of state variable contracts/addresses.
 
@@ -281,7 +281,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="GAS-6"></a>[GAS-6] Use calldata instead of memory for function arguments that do not get mutated
+### `<a name="GAS-6"></a>`[GAS-6] Use calldata instead of memory for function arguments that do not get mutated
 
 When a function with a `memory` array is called externally, the `abi.decode()` step has to use a for-loop to copy each index of the `calldata` to the `memory` index. Each iteration of this for-loop costs at least 60 gas (i.e. `60 * <mem_array>.length`). Using `calldata` directly bypasses this loop.
 
@@ -309,7 +309,7 @@ File: src/campaign/interfaces/IBaseNudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/IBaseNudgeCampaign.sol)
 
-### <a name="GAS-7"></a>[GAS-7] For Operations that will not overflow, you could use unchecked
+### `<a name="GAS-7"></a>`[GAS-7] For Operations that will not overflow, you could use unchecked
 
 *Instances (52)*:
 
@@ -459,7 +459,7 @@ File: src/campaign/interfaces/INudgePointsCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/INudgePointsCampaign.sol)
 
-### <a name="GAS-8"></a>[GAS-8] Avoid contract existence checks by using low level calls
+### `<a name="GAS-8"></a>`[GAS-8] Avoid contract existence checks by using low level calls
 
 Prior to 0.8.10 the compiler inserted extra code, including `EXTCODESIZE` (**100 gas**), to check for contract existence for external function calls. In more recent solidity versions, the compiler will not insert these checks if the external call has a return value. Similar behavior can be achieved in earlier versions by using low-level calls, since low level calls never check for contract existence
 
@@ -487,7 +487,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-9"></a>[GAS-9] Stack variable used as a cheaper cache for a state variable is only used once
+### `<a name="GAS-9"></a>`[GAS-9] Stack variable used as a cheaper cache for a state variable is only used once
 
 If the variable is only accessed once, it's cheaper to use the state variable directly that one time, and save the **3 gas** the extra stack assignment would spend
 
@@ -504,7 +504,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="GAS-10"></a>[GAS-10] State variables only set in the constructor should be declared `immutable`
+### `<a name="GAS-10"></a>`[GAS-10] State variables only set in the constructor should be declared `immutable`
 
 Variables only set in the constructor and never edited afterwards should be marked as immutable, as it would avoid the expensive storage-writing operation in the constructor (around **20 000 gas** per variable) and replace the expensive storage-reading operations (around **2100 gas** per reading) to a less expensive value reading (**3 gas**)
 
@@ -539,7 +539,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="GAS-11"></a>[GAS-11] Functions guaranteed to revert when called by normal users can be marked `payable`
+### `<a name="GAS-11"></a>`[GAS-11] Functions guaranteed to revert when called by normal users can be marked `payable`
 
 If a function modifier such as `onlyOwner` is used, the function will revert if a normal user tries to pay the function. Marking the function as `payable` will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided.
 
@@ -586,7 +586,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-12"></a>[GAS-12] `++i` costs less gas compared to `i++` or `i += 1` (same for `--i` vs `i--` or `i -= 1`)
+### `<a name="GAS-12"></a>`[GAS-12] `++i` costs less gas compared to `i++` or `i += 1` (same for `--i` vs `i--` or `i -= 1`)
 
 Pre-increments and pre-decrements are cheaper.
 
@@ -611,9 +611,9 @@ uint i = 1;
 uint j = 2;
 require(j == i++, "This will be false as i is incremented after the comparison");
 ```
-  
+
 However, pre-increments (or pre-decrements) return the new value:
-  
+
 ```solidity
 uint i = 1;  
 uint j = 2;
@@ -667,7 +667,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-13"></a>[GAS-13] Using `private` rather than `public` for constants, saves gas
+### `<a name="GAS-13"></a>`[GAS-13] Using `private` rather than `public` for constants, saves gas
 
 If needed, the values can be read from the verified contract source code, or if there are multiple values there can be a single getter function that [returns a tuple](https://github.com/code-423n4/2022-08-frax/blob/90f55a9ce4e25bceed3a74290b854341d8de6afa/src/contracts/FraxlendPair.sol#L156-L178) of the values of all currently-public constants. Saves **3406-3606 gas** in deployment gas due to the compiler not having to create non-payable getter functions for deployment calldata, not having to store the bytes of the value outside of where it's used, and not adding another entry to the method ID table
 
@@ -712,11 +712,11 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-14"></a>[GAS-14] `uint256` to `bool` `mapping`: Utilizing Bitmaps to dramatically save on Gas
+### `<a name="GAS-14"></a>`[GAS-14] `uint256` to `bool` `mapping`: Utilizing Bitmaps to dramatically save on Gas
 
-<https://soliditydeveloper.com/bitmaps>
+[https://soliditydeveloper.com/bitmaps](https://soliditydeveloper.com/bitmaps)
 
-<https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/structs/BitMaps.sol>
+[https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/structs/BitMaps.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/structs/BitMaps.sol)
 
 - [BitMaps.sol#L5-L16](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/structs/BitMaps.sol#L5-L16):
 
@@ -747,7 +747,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-15"></a>[GAS-15] Increments/decrements can be unchecked in for-loops
+### `<a name="GAS-15"></a>`[GAS-15] Increments/decrements can be unchecked in for-loops
 
 In Solidity 0.8+, there's a default overflow check on unsigned integers. It's possible to uncheck this in for-loops and save some gas at each iteration, but at the cost of some code readability, as this uncheck cannot be made inline.
 
@@ -808,7 +808,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="GAS-16"></a>[GAS-16] Use != 0 instead of > 0 for unsigned integer comparison
+### `<a name="GAS-16"></a>`[GAS-16] Use != 0 instead of > 0 for unsigned integer comparison
 
 *Instances (4)*:
 
@@ -843,29 +843,29 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 ## Non Critical Issues
 
-| |Issue|Instances|
-|-|:-|:-:|
-| [NC-1](#NC-1) | Missing checks for `address(0)` when assigning values to address state variables | 1 |
-| [NC-2](#NC-2) | Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked` | 2 |
-| [NC-3](#NC-3) | `constant`s should be defined rather than using magic numbers | 6 |
-| [NC-4](#NC-4) | Control structures do not follow the Solidity Style Guide | 27 |
-| [NC-5](#NC-5) | Event missing indexed field | 13 |
-| [NC-6](#NC-6) | Events that mark critical parameter changes should contain both the old and the new value | 3 |
-| [NC-7](#NC-7) | Function ordering does not follow the Solidity style guide | 2 |
-| [NC-8](#NC-8) | Functions should not be longer than 50 lines | 46 |
-| [NC-9](#NC-9) | Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor | 6 |
-| [NC-10](#NC-10) | Constant state variables defined more than once | 7 |
-| [NC-11](#NC-11) | Consider using named mappings | 4 |
-| [NC-12](#NC-12) | `address`s shouldn't be hard-coded | 3 |
-| [NC-13](#NC-13) | Adding a `return` statement when the function defines a named return variable, is redundant | 2 |
-| [NC-14](#NC-14) | Take advantage of Custom Error's return value property | 48 |
-| [NC-15](#NC-15) | Contract does not follow the Solidity style guide's suggested layout ordering | 5 |
-| [NC-16](#NC-16) | Use Underscores for Number Literals (add an underscore every 3 digits) | 1 |
-| [NC-17](#NC-17) | Event is missing `indexed` fields | 15 |
-| [NC-18](#NC-18) | Constants should be defined rather than using magic numbers | 2 |
-| [NC-19](#NC-19) | Variables need not be initialized to zero | 8 |
+|              | Issue                                                                                         | Instances |
+| ------------ | :-------------------------------------------------------------------------------------------- | :-------: |
+| [NC-1](#NC-1)   | Missing checks for `address(0)` when assigning values to address state variables            |     1     |
+| [NC-2](#NC-2)   | Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`                 |     2     |
+| [NC-3](#NC-3)   | `constant`s should be defined rather than using magic numbers                               |     6     |
+| [NC-4](#NC-4)   | Control structures do not follow the Solidity Style Guide                                     |    27    |
+| [NC-5](#NC-5)   | Event missing indexed field                                                                   |    13    |
+| [NC-6](#NC-6)   | Events that mark critical parameter changes should contain both the old and the new value     |     3     |
+| [NC-7](#NC-7)   | Function ordering does not follow the Solidity style guide                                    |     2     |
+| [NC-8](#NC-8)   | Functions should not be longer than 50 lines                                                  |    46    |
+| [NC-9](#NC-9)   | Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor   |     6     |
+| [NC-10](#NC-10) | Constant state variables defined more than once                                               |     7     |
+| [NC-11](#NC-11) | Consider using named mappings                                                                 |     4     |
+| [NC-12](#NC-12) | `address`s shouldn't be hard-coded                                                          |     3     |
+| [NC-13](#NC-13) | Adding a `return` statement when the function defines a named return variable, is redundant |     2     |
+| [NC-14](#NC-14) | Take advantage of Custom Error's return value property                                        |    48    |
+| [NC-15](#NC-15) | Contract does not follow the Solidity style guide's suggested layout ordering                 |     5     |
+| [NC-16](#NC-16) | Use Underscores for Number Literals (add an underscore every 3 digits)                        |     1     |
+| [NC-17](#NC-17) | Event is missing `indexed` fields                                                           |    15    |
+| [NC-18](#NC-18) | Constants should be defined rather than using magic numbers                                   |     2     |
+| [NC-19](#NC-19) | Variables need not be initialized to zero                                                     |     8     |
 
-### <a name="NC-1"></a>[NC-1] Missing checks for `address(0)` when assigning values to address state variables
+### `<a name="NC-1"></a>`[NC-1] Missing checks for `address(0)` when assigning values to address state variables
 
 *Instances (1)*:
 
@@ -878,11 +878,11 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="NC-2"></a>[NC-2] Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`
+### `<a name="NC-2"></a>`[NC-2] Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`
 
 Solidity version 0.8.4 introduces `bytes.concat()` (vs `abi.encodePacked(<bytes>,<bytes>)`)
 
-Solidity version 0.8.12 introduces `string.concat()` (vs `abi.encodePacked(<str>,<str>), which catches concatenation errors (in the event of a`bytes`data mixed in the concatenation)`)
+Solidity version 0.8.12 introduces `string.concat()` (vs `abi.encodePacked(<str>,<str>), which catches concatenation errors (in the event of a`bytes `data mixed in the concatenation)`)
 
 *Instances (2)*:
 
@@ -897,7 +897,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="NC-3"></a>[NC-3] `constant`s should be defined rather than using magic numbers
+### `<a name="NC-3"></a>`[NC-3] `constant`s should be defined rather than using magic numbers
 
 Even [assembly](https://github.com/code-423n4/2022-05-opensea-seaport/blob/9d7ce4d08bf3c3010304a0476a785c70c0e90ae7/contracts/lib/TokenTransferrer.sol#L35-L39) can benefit from using readable constants instead of hex/numeric literals
 
@@ -929,7 +929,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="NC-4"></a>[NC-4] Control structures do not follow the Solidity Style Guide
+### `<a name="NC-4"></a>`[NC-4] Control structures do not follow the Solidity Style Guide
 
 See the [control structures](https://docs.soliditylang.org/en/latest/style-guide.html#control-structures) section of the Solidity Style Guide
 
@@ -1010,7 +1010,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="NC-5"></a>[NC-5] Event missing indexed field
+### `<a name="NC-5"></a>`[NC-5] Event missing indexed field
 
 Index event fields make the field more quickly accessible [to off-chain tools](https://ethereum.stackexchange.com/questions/40396/can-somebody-please-explain-the-concept-of-event-indexing) that parse events. This is especially useful when it comes to filtering based on an address. However, note that each index field costs extra gas during emission, so it's not necessarily best to index the maximum allowed per event (three fields). Where applicable, each `event` should use three `indexed` fields if there are three or more fields, and gas usage is not particularly of concern for the events in question. If there are fewer than three applicable fields, all of the applicable fields should be indexed.
 
@@ -1063,7 +1063,7 @@ File: src/campaign/interfaces/INudgePointsCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/INudgePointsCampaign.sol)
 
-### <a name="NC-6"></a>[NC-6] Events that mark critical parameter changes should contain both the old and the new value
+### `<a name="NC-6"></a>`[NC-6] Events that mark critical parameter changes should contain both the old and the new value
 
 This should especially be done if the new value is not required to be different from the old value
 
@@ -1076,11 +1076,11 @@ File: src/campaign/NudgeCampaign.sol
              if (!factory.hasRole(factory.NUDGE_ADMIN_ROLE(), msg.sender)) {
                  revert Unauthorized();
              }
-     
+   
              if (isActive && block.timestamp < startTimestamp) {
                  revert StartDateNotReached();
              }
-     
+   
              isCampaignActive = isActive;
              // If deactivating, mark as manually deactivated
              if (!isActive) {
@@ -1089,7 +1089,7 @@ File: src/campaign/NudgeCampaign.sol
                  // If activating, clear the manual deactivation flag
                  _manuallyDeactivated = false;
              }
-     
+   
              emit CampaignStatusChanged(isActive);
 
 ```
@@ -1101,15 +1101,15 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 238:     function updateTreasuryAddress(address newTreasury) external onlyRole(NUDGE_ADMIN_ROLE) {
              if (newTreasury == address(0)) revert InvalidTreasuryAddress();
-     
+   
              address oldTreasury = nudgeTreasuryAddress;
              nudgeTreasuryAddress = newTreasury;
-     
+   
              emit TreasuryUpdated(oldTreasury, newTreasury);
 
 250:     function updateFeeSetting(uint16 newFeeBps) external onlyRole(NUDGE_ADMIN_ROLE) {
              if (newFeeBps > 10_000) revert InvalidFeeSetting();
-     
+   
              uint16 oldFeeBps = FEE_BPS;
              FEE_BPS = newFeeBps;
              emit FeeUpdated(oldFeeBps, newFeeBps);
@@ -1118,7 +1118,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="NC-7"></a>[NC-7] Function ordering does not follow the Solidity style guide
+### `<a name="NC-7"></a>`[NC-7] Function ordering does not follow the Solidity style guide
 
 According to the [Solidity style guide](https://docs.soliditylang.org/en/v0.8.17/style-guide.html#order-of-functions), functions should be laid out in the following order :`constructor()`, `receive()`, `fallback()`, `external`, `public`, `internal`, `private`, but the cases below do not follow this pattern
 
@@ -1194,7 +1194,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="NC-8"></a>[NC-8] Functions should not be longer than 50 lines
+### `<a name="NC-8"></a>`[NC-8] Functions should not be longer than 50 lines
 
 Overly complex code can make understanding functionality more difficult, try to further modularize your code to ensure readability
 
@@ -1341,7 +1341,7 @@ File: src/campaign/interfaces/INudgePointsCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/INudgePointsCampaign.sol)
 
-### <a name="NC-9"></a>[NC-9] Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor
+### `<a name="NC-9"></a>`[NC-9] Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor
 
 If a function is supposed to be access-controlled, a `modifier` should be used instead of a `require/if` statement for more readability.
 
@@ -1366,7 +1366,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="NC-10"></a>[NC-10] Constant state variables defined more than once
+### `<a name="NC-10"></a>`[NC-10] Constant state variables defined more than once
 
 Rather than redefining state variable constant, consider using a library to store all constants as this will prevent data redundancy
 
@@ -1407,7 +1407,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="NC-11"></a>[NC-11] Consider using named mappings
+### `<a name="NC-11"></a>`[NC-11] Consider using named mappings
 
 Consider moving to solidity version 0.8.18 or later, and using [named mappings](https://ethereum.stackexchange.com/questions/51629/how-to-name-the-arguments-in-mapping/145555#145555) to make it easier to understand the purpose of each mapping
 
@@ -1435,7 +1435,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="NC-12"></a>[NC-12] `address`s shouldn't be hard-coded
+### `<a name="NC-12"></a>`[NC-12] `address`s shouldn't be hard-coded
 
 It is often better to declare `address`es as `immutable`, and assign them via constructor arguments. This allows the code to remain the same across deployments on different networks, and avoids recompilation when addresses need to change.
 
@@ -1468,7 +1468,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="NC-13"></a>[NC-13] Adding a `return` statement when the function defines a named return variable, is redundant
+### `<a name="NC-13"></a>`[NC-13] Adding a `return` statement when the function defines a named return variable, is redundant
 
 *Instances (2)*:
 
@@ -1483,17 +1483,17 @@ File: src/campaign/NudgeCampaign.sol
              if (!factory.hasRole(factory.NUDGE_ADMIN_ROLE(), msg.sender)) {
                  revert Unauthorized();
              }
-     
+   
              if (token == rewardToken) {
                  revert CannotRescueRewardToken();
              }
-     
+   
              amount = getBalanceOfSelf(token);
              if (amount > 0) {
                  _transfer(token, msg.sender, amount);
                  emit TokensRescued(token, amount);
              }
-     
+   
              return amount;
 
 428:     /// @notice Returns comprehensive information about the campaign
@@ -1529,7 +1529,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="NC-14"></a>[NC-14] Take advantage of Custom Error's return value property
+### `<a name="NC-14"></a>`[NC-14] Take advantage of Custom Error's return value property
 
 An important feature of Custom Error is that values such as address, tokenID, msg.value can be written inside the () sign, this kind of approach provides a serious advantage in debugging and examining the revert details of dapps such as tenderly.
 
@@ -1652,7 +1652,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="NC-15"></a>[NC-15] Contract does not follow the Solidity style guide's suggested layout ordering
+### `<a name="NC-15"></a>`[NC-15] Contract does not follow the Solidity style guide's suggested layout ordering
 
 The [style guide](https://docs.soliditylang.org/en/v0.8.16/style-guide.html#order-of-layout) says that, within a contract, the ordering should be:
 
@@ -1958,7 +1958,7 @@ File: src/campaign/interfaces/INudgePointsCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/INudgePointsCampaign.sol)
 
-### <a name="NC-16"></a>[NC-16] Use Underscores for Number Literals (add an underscore every 3 digits)
+### `<a name="NC-16"></a>`[NC-16] Use Underscores for Number Literals (add an underscore every 3 digits)
 
 *Instances (1)*:
 
@@ -1971,7 +1971,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="NC-17"></a>[NC-17] Event is missing `indexed` fields
+### `<a name="NC-17"></a>`[NC-17] Event is missing `indexed` fields
 
 Index event fields make the field more quickly accessible to off-chain tools that parse events. However, note that each index field costs extra gas during emission, so it's not necessarily best to index the maximum allowed per event (three fields). Each event should use three indexed fields if there are three or more fields, and gas usage is not particularly of concern for the events in question. If there are fewer than three fields, all of the fields should be indexed.
 
@@ -2035,7 +2035,7 @@ File: src/campaign/interfaces/INudgePointsCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/interfaces/INudgePointsCampaign.sol)
 
-### <a name="NC-18"></a>[NC-18] Constants should be defined rather than using magic numbers
+### `<a name="NC-18"></a>`[NC-18] Constants should be defined rather than using magic numbers
 
 *Instances (2)*:
 
@@ -2050,7 +2050,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="NC-19"></a>[NC-19] Variables need not be initialized to zero
+### `<a name="NC-19"></a>`[NC-19] Variables need not be initialized to zero
 
 The default value for variables is zero, so initializing them to zero is superfluous.
 
@@ -2095,23 +2095,23 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 ## Low Issues
 
-| |Issue|Instances|
-|-|:-|:-:|
-| [L-1](#L-1) | Some tokens may revert when zero value transfers are made | 5 |
-| [L-2](#L-2) | Missing checks for `address(0)` when assigning values to address state variables | 1 |
-| [L-3](#L-3) | `abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()` | 2 |
-| [L-4](#L-4) | `decimals()` is not a part of the ERC-20 standard | 2 |
-| [L-5](#L-5) | Division by zero not prevented | 1 |
-| [L-6](#L-6) | Empty `receive()/payable fallback()` function does not authenticate requests | 2 |
-| [L-7](#L-7) | External call recipient may consume all transaction gas | 3 |
-| [L-8](#L-8) | Signature use at deadlines should be allowed | 2 |
-| [L-9](#L-9) | Loss of precision | 1 |
-| [L-10](#L-10) | Solidity version 0.8.20+ may not work on other chains due to `PUSH0` | 3 |
-| [L-11](#L-11) | Sweeping may break accounting if tokens with multiple addresses are used | 2 |
+|            | Issue                                                                                                                           | Instances |
+| ---------- | :------------------------------------------------------------------------------------------------------------------------------ | :-------: |
+| [L-1](#L-1)   | Some tokens may revert when zero value transfers are made                                                                       |     5     |
+| [L-2](#L-2)   | Missing checks for `address(0)` when assigning values to address state variables                                              |     1     |
+| [L-3](#L-3)   | `abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()` |     2     |
+| [L-4](#L-4)   | `decimals()` is not a part of the ERC-20 standard                                                                             |     2     |
+| [L-5](#L-5)   | Division by zero not prevented                                                                                                  |     1     |
+| [L-6](#L-6)   | Empty `receive()/payable fallback()` function does not authenticate requests                                                  |     2     |
+| [L-7](#L-7)   | External call recipient may consume all transaction gas                                                                         |     3     |
+| [L-8](#L-8)   | Signature use at deadlines should be allowed                                                                                    |     2     |
+| [L-9](#L-9)   | Loss of precision                                                                                                               |     1     |
+| [L-10](#L-10) | Solidity version 0.8.20+ may not work on other chains due to `PUSH0`                                                          |     3     |
+| [L-11](#L-11) | Sweeping may break accounting if tokens with multiple addresses are used                                                        |     2     |
 
-### <a name="L-1"></a>[L-1] Some tokens may revert when zero value transfers are made
+### `<a name="L-1"></a>`[L-1] Some tokens may revert when zero value transfers are made
 
-Example: <https://github.com/d-xo/weird-erc20#revert-on-zero-value-transfers>.
+Example: [https://github.com/d-xo/weird-erc20#revert-on-zero-value-transfers](https://github.com/d-xo/weird-erc20#revert-on-zero-value-transfers).
 
 In spite of the fact that EIP-20 [states](https://github.com/ethereum/EIPs/blob/46b9b698815abbfa628cd1097311deee77dd45c5/EIPS/eip-20.md?plain=1#L116) that zero-valued transfers must be accepted, some tokens, such as LEND will revert if this is attempted, which may cause transactions that involve other tokens (such as batch operations) to fully revert. Consider skipping the transfer if the amount is zero, which will also save gas.
 
@@ -2148,7 +2148,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="L-2"></a>[L-2] Missing checks for `address(0)` when assigning values to address state variables
+### `<a name="L-2"></a>`[L-2] Missing checks for `address(0)` when assigning values to address state variables
 
 *Instances (1)*:
 
@@ -2161,7 +2161,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-3"></a>[L-3] `abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()`
+### `<a name="L-3"></a>`[L-3] `abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()`
 
 Use `abi.encode()` instead which will pad items to 32 bytes, which will [prevent hash collisions](https://docs.soliditylang.org/en/v0.8.13/abi-spec.html#non-standard-packed-mode) (e.g. `abi.encodePacked(0x123,0x456)` => `0x123456` => `abi.encodePacked(0x1,0x23456)`, but `abi.encode(0x123,0x456)` => `0x0...1230...456`). "Unless there is a compelling reason, `abi.encode` should be preferred". If there is only one argument to `abi.encodePacked()` it can often be cast to `bytes()` or `bytes32()` [instead](https://ethereum.stackexchange.com/questions/30912/how-to-compare-strings-in-solidity#answer-82739).
 If all arguments are strings and or bytes, `bytes.concat()` should be used instead
@@ -2179,7 +2179,7 @@ File: src/campaign/NudgeCampaignFactory.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaignFactory.sol)
 
-### <a name="L-4"></a>[L-4] `decimals()` is not a part of the ERC-20 standard
+### `<a name="L-4"></a>`[L-4] `decimals()` is not a part of the ERC-20 standard
 
 The `decimals()` function is not a part of the [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), and was added later as an [optional extension](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/IERC20Metadata.sol). As such, some valid ERC20 tokens do not support this interface, so it is unsafe to blindly cast all tokens to this interface, and then call this function.
 
@@ -2196,7 +2196,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-5"></a>[L-5] Division by zero not prevented
+### `<a name="L-5"></a>`[L-5] Division by zero not prevented
 
 The divisions below take an input parameter which does not have any zero-value checks, which may lead to the functions reverting when zero is passed.
 
@@ -2211,7 +2211,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-6"></a>[L-6] Empty `receive()/payable fallback()` function does not authenticate requests
+### `<a name="L-6"></a>`[L-6] Empty `receive()/payable fallback()` function does not authenticate requests
 
 If the intention is for the Ether to be used, the function should call another function, otherwise it should revert (e.g. require(msg.sender == address(weth))). Having no access control on the function means that someone may send Ether to the contract, and have no way to get anything back out, which is a loss of funds. If the concern is having to spend a small amount of gas to check the sender against an immutable address, the code should at least have a function to rescue unused Ether.
 
@@ -2228,7 +2228,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-7"></a>[L-7] External call recipient may consume all transaction gas
+### `<a name="L-7"></a>`[L-7] External call recipient may consume all transaction gas
 
 There is no limit specified on the amount of gas used, so the recipient can use up all of the transaction's gas, causing it to revert. Use `addr.call{gas: <amount>}("")` or [this](https://github.com/nomad-xyz/ExcessivelySafeCall) library instead.
 
@@ -2261,7 +2261,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="L-8"></a>[L-8] Signature use at deadlines should be allowed
+### `<a name="L-8"></a>`[L-8] Signature use at deadlines should be allowed
 
 According to [EIP-2612](https://github.com/ethereum/EIPs/blob/71dc97318013bf2ac572ab63fab530ac9ef419ca/EIPS/eip-2612.md?plain=1#L58), signatures used on exactly the deadline timestamp are supposed to be allowed. While the signature may or may not be used for the exact EIP-2612 use case (transfer approvals), for consistency's sake, all deadlines should follow this semantic. If the timestamp is an expiration rather than a deadline, consider whether it makes more sense to include the expiration timestamp as a valid timestamp, as is done for deadlines.
 
@@ -2278,7 +2278,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-9"></a>[L-9] Loss of precision
+### `<a name="L-9"></a>`[L-9] Loss of precision
 
 Division by large numbers may result in the result being zero, due to solidity not supporting fractions. Consider requiring a minimum amount for the numerator to ensure that it is always larger than the denominator
 
@@ -2293,7 +2293,7 @@ File: src/campaign/NudgeCampaign.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgeCampaign.sol)
 
-### <a name="L-10"></a>[L-10] Solidity version 0.8.20+ may not work on other chains due to `PUSH0`
+### `<a name="L-10"></a>`[L-10] Solidity version 0.8.20+ may not work on other chains due to `PUSH0`
 
 The compiler for Solidity 0.8.20 switches the default target EVM version to [Shanghai](https://blog.soliditylang.org/2023/05/10/solidity-0.8.20-release-announcement/#important-note), which includes the new `PUSH0` op code. This op code may not yet be implemented on all L2s, so deployment on these chains will fail. To work around this issue, use an earlier [EVM](https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html?ref=zaryabs.com#setting-the-evm-version-to-target) [version](https://book.getfoundry.sh/reference/config/solidity-compiler#evm_version). While the project itself may or may not compile with 0.8.20, other projects with which it integrates, or which extend this project may, and those projects will have problems deploying these contracts/libraries.
 
@@ -2326,7 +2326,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="L-11"></a>[L-11] Sweeping may break accounting if tokens with multiple addresses are used
+### `<a name="L-11"></a>`[L-11] Sweeping may break accounting if tokens with multiple addresses are used
 
 There have been [cases](https://blog.openzeppelin.com/compound-tusd-integration-issue-retrospective/) in the past where a token mistakenly had two addresses that could control its balance, and transfers using one address impacted the balance of the other. To protect against this potential scenario, sweep functions should ensure that the balance of the non-sweepable token does not change after the transfer of the swept tokens.
 
@@ -2352,13 +2352,13 @@ File: src/campaign/interfaces/INudgeCampaign.sol
 
 ## Medium Issues
 
-| |Issue|Instances|
-|-|:-|:-:|
-| [M-1](#M-1) | Contracts are vulnerable to fee-on-transfer accounting-related issues | 2 |
-| [M-2](#M-2) | `block.number` means different things on different L2s | 2 |
-| [M-3](#M-3) | Centralization Risk for trusted owners | 15 |
+|          | Issue                                                                 | Instances |
+| -------- | :-------------------------------------------------------------------- | :-------: |
+| [M-1](#M-1) | Contracts are vulnerable to fee-on-transfer accounting-related issues |     2     |
+| [M-2](#M-2) | `block.number` means different things on different L2s              |     2     |
+| [M-3](#M-3) | Centralization Risk for trusted owners                                |    15    |
 
-### <a name="M-1"></a>[M-1] Contracts are vulnerable to fee-on-transfer accounting-related issues
+### `<a name="M-1"></a>`[M-1] Contracts are vulnerable to fee-on-transfer accounting-related issues
 
 Consistently check account balance before and after transfers for Fee-On-Transfer discrepancies. As arbitrary ERC20 tokens can be used, the amount here should be calculated every time to take into consideration a possible fee-on-transfer or deflation.
 Also, it's a good practice for the future of the solution.
@@ -2385,7 +2385,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="M-2"></a>[M-2] `block.number` means different things on different L2s
+### `<a name="M-2"></a>`[M-2] `block.number` means different things on different L2s
 
 On Optimism, `block.number` is the L2 block number, but on Arbitrum, it's the L1 block number, and `ArbSys(address(100)).arbBlockNumber()` must be used. Furthermore, L2 block numbers often occur much more frequently than L1 block numbers (any may even occur on a per-transaction basis), so using block numbers for timing results in inconsistencies, especially when voting is involved across multiple chains. As of version 4.9, OpenZeppelin has [modified](https://blog.openzeppelin.com/introducing-openzeppelin-contracts-v4.9#governor) their governor code to use a clock rather than block numbers, to avoid these sorts of issues, but this still requires that the project [implement](https://docs.openzeppelin.com/contracts/4.x/governance#token_2) a [clock](https://eips.ethereum.org/EIPS/eip-6372) for each L2.
 
@@ -2409,7 +2409,7 @@ File: src/campaign/NudgePointsCampaigns.sol
 
 [Link to code](https://github.com/code-423n4/2025-03-nudgexyz/blob/main/src/campaign/NudgePointsCampaigns.sol)
 
-### <a name="M-3"></a>[M-3] Centralization Risk for trusted owners
+### `<a name="M-3"></a>`[M-3] Centralization Risk for trusted owners
 
 #### Impact
 
