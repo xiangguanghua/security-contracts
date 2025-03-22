@@ -36,7 +36,9 @@ interface INudgeCampaign is IBaseNudgeCampaign {
   function rescueTokens(address token) external returns (uint256);
 
   // View functions
-  function getBalanceOfSelf(address token) external view returns (uint256);
+  // @audit info 多余的方法 ,注释掉后不会报错，并没有使用
+  // function getBalanceOfSelf(address token) external view returns (uint256);
+  // function getBalanceOfSelf(address token) external view returns (uint256);
   function claimableRewardAmount() external view returns (uint256);
   function getRewardAmountIncludingFees(uint256 toAmount) external view returns (uint256);
   function calculateUserRewardsAndFees(uint256 rewardAmountIncludingFees)

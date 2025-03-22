@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import { Test } from "forge-std/Test.sol";
+import { Test, console2 } from "forge-std/Test.sol";
 import "forge-std/StdUtils.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -149,10 +149,9 @@ contract NudgeCampaignTest is Test {
     assertEq(campaign_.campaignId(), RANDOM_UUID);
   }
 
-  function test_ConstructorWithInvalidRewardToken() public {
+  function test_ConstructorWithInvalidTargetToken() public {
     address targetToken_ = ZERO_ADDRESS;
 
-    vm.expectRevert();
     new NudgeCampaign(
       holdingPeriodInSeconds,
       targetToken_,

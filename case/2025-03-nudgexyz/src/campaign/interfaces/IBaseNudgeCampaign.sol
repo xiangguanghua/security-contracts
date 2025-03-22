@@ -23,8 +23,8 @@ interface IBaseNudgeCampaign {
   struct Participation {
     ParticipationStatus status;
     address userAddress;
-    uint256 toAmount;
-    uint256 rewardAmount;
+    uint256 toAmount; // Amount of tokens the user sent to the campaign
+    uint256 rewardAmount; //
     uint256 startTimestamp;
     uint256 startBlockNumber;
   }

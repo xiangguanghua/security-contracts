@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/Create2.sol";
+
 import "./NudgeCampaign.sol";
 import "./interfaces/INudgeCampaignFactory.sol";
 
@@ -14,18 +15,31 @@ import "./interfaces/INudgeCampaignFactory.sol";
 contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   using SafeERC20 for IERC20;
 
+  /*////////////////////////////////////////////////////////////////////////
+                                 常量
+  ///////////////////////////////////////////////////////////////////////*/
+  // e 定义3个角色
   bytes32 public constant NUDGE_ADMIN_ROLE = keccak256("NUDGE_ADMIN_ROLE");
   bytes32 public constant NUDGE_OPERATOR_ROLE = keccak256("NUDGE_OPERATOR_ROLE");
   bytes32 public constant SWAP_CALLER_ROLE = keccak256("SWAP_CALLER_ROLE");
 
   address public constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
-  address public nudgeTreasuryAddress;
+  /*////////////////////////////////////////////////////////////////////////
+                                 状态变量
+  ///////////////////////////////////////////////////////////////////////*/
+  // q 应该设置未常量，除非你后期向调整
+  // qanswer 改变量后期确实被管理员调整了
   uint16 public FEE_BPS = 1000; // 10% by default
-
-  // Campaign tracking
-  mapping(address => bool) public isCampaign;
+  // q 这个地址什么用？
+  address public nudgeTreasuryAddress;
+  // q 这个mapping是干什么的？
+  // qanswer 用于后面收集奖励用的
+  mapping(address => bool) public isCampaign; // Campaign tracking
+  // e 存储已部署的活动地址
   address[] public campaignAddresses;
+  // e 记录活动地址，是否被暂停
+  // q 会不会记录混乱，活动地址被暂停，但是没有记录
   mapping(address => bool) public isCampaignPaused;
 
   /// @notice Initializes the contract with required addresses and roles
@@ -34,12 +48,13 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   /// @param operator_ Address to be granted NUDGE_OPERATOR_ROLE
   /// @param swapCaller_ Address to be granted SWAP_CALLER_ROLE
   /// @dev All parameters must be non-zero addresses
+  // q 初始化授权地址，如果授权错误呢？会不会有什么影响？如何保证授权不会错误，普通用户是什么角色
   constructor(address treasury_, address admin_, address operator_, address swapCaller_) {
     if (treasury_ == address(0)) revert InvalidTreasuryAddress();
     if (admin_ == address(0)) revert ZeroAddress();
     if (operator_ == address(0)) revert ZeroAddress();
     if (swapCaller_ == address(0)) revert ZeroAddress();
-
+    // q 这个地址什么用？
     nudgeTreasuryAddress = treasury_;
 
     _grantRole(DEFAULT_ADMIN_ROLE, admin_);
@@ -65,14 +80,28 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   /// @param uuid Unique identifier for the campaign
   /// @return campaign Address of the deployed campaign contract
   /// @dev Uses Create2 for deterministic address generation
+
+  // e 部署活动，没有提供资金，后续需要用户自己提供资金
+  // e 如果选择简单部署，之后可以通过向活动的合约地址发送一些代币来为活动提供资金。这也可以在任何时候用来“充值”活动。
+  // q 如果后续不提供资金，怎么办？
+  // q 部署失败怎么办
   function deployCampaign(
-    uint32 holdingPeriodInSeconds,
+    uint32 holdingPeriodInSeconds, // e 持仓期
     address targetToken,
-    address rewardToken,
+    address rewardToken, // e 奖励代币
+    // e 奖励 PPQ 用于根据参与金额（toAmount）计算奖励的系数
+    // q 如何计算奖励因子
+    // q 调用这个方法的时候计算出来的，
+    // @audit info 没有做校验，rewardPPQ的值是否合法
     uint256 rewardPPQ,
-    address campaignAdmin,
-    uint256 startTimestamp,
+    address campaignAdmin, // e 部署活动的活动管理员（项目）的钱包地址
+    uint256 startTimestamp, // e 开始时间戳, 营销开始的时间和日期。0 值将营销开始设置为立即
+    // e 代替提款地址. 项目可能选择指定与营销管理员地址不同的地址来提取未分配的奖励。否则，在此处使用零地址将发送代币到营销管理员地址。
+    // q 如何使用这个地址.为什么会有未分配的奖励,未分配奖励如何计算
+    // q 前端传递过来的地址？
+    // @audit info 难道不用做address(0) 校验？
     address alternativeWithdrawalAddress,
+    // q campaignId_ 是 uuid 吗？如何生成uuid
     uint256 uuid
   )
     public
@@ -93,7 +122,7 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
         startTimestamp,
         FEE_BPS,
         alternativeWithdrawalAddress,
-        uuid
+        uuid // @audit info 如果我让你两次生成的一样。那么。你就**。
       )
     );
 
@@ -112,10 +141,13 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
 
     // Deploy using CREATE2
     bytes memory bytecode = abi.encodePacked(type(NudgeCampaign).creationCode, constructorArgs);
+    // e return campaign address 值
     campaign = Create2.deploy(0, salt, bytecode);
 
-    // Track the campaign
-    isCampaign[campaign] = true;
+    // q 这个mapping是干什么的？
+    // qanswer 用于后面收集奖励用的
+    isCampaign[campaign] = true; // Track the campaign
+    // e 记录活动地址的值
     campaignAddresses.push(campaign);
 
     emit CampaignDeployed(campaign, campaignAdmin, targetToken, rewardToken, startTimestamp, uuid);
@@ -133,6 +165,7 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   /// @param uuid Unique identifier for the campaign
   /// @return campaign Address of the deployed and funded campaign contract
   /// @dev If rewardToken is NATIVE_TOKEN, msg.value must be at least initialRewardAmount
+  // e 部署并提供资金
   function deployAndFundCampaign(
     uint32 holdingPeriodInSeconds,
     address targetToken,
@@ -141,6 +174,8 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
     address campaignAdmin,
     uint256 startTimestamp,
     address alternativeWithdrawalAddress,
+    // e 初始奖励金额
+    // q 如果传入空值呢？
     uint256 initialRewardAmount,
     uint256 uuid
   )
@@ -155,6 +190,7 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
     if (rewardToken == NATIVE_TOKEN) {
       if (msg.value != initialRewardAmount) revert IncorrectEtherAmount();
       // Deploy contract first
+      // q 部署失败会怎么样？,返回值是什么
       campaign = deployCampaign(
         holdingPeriodInSeconds,
         targetToken,
@@ -166,11 +202,12 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
         uuid
       );
       // @audit-follow-up: Consider using a reentrancy guard
+      // @audit info campaign address没有校验
       (bool sent,) = campaign.call{ value: initialRewardAmount }("");
       if (!sent) revert NativeTokenTransferFailed();
     } else {
       if (msg.value > 0) revert IncorrectEtherAmount();
-
+      // q 部署失败会怎么样？,返回值是什么
       campaign = deployCampaign(
         holdingPeriodInSeconds,
         targetToken,
@@ -181,6 +218,7 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
         alternativeWithdrawalAddress,
         uuid
       );
+      // @audit info campaign address没有校验
       IERC20(rewardToken).safeTransferFrom(msg.sender, campaign, initialRewardAmount);
     }
   }
@@ -258,6 +296,7 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   /// @notice Update Nudge's fee in basis points for future campaigns created by this factory
   /// @param newFeeBps New fee in basis points
   /// @dev Only callable by NUDGE_ADMIN_ROLE
+  // q 这个newFeeBps是从哪里来的？
   function updateFeeSetting(uint16 newFeeBps) external onlyRole(NUDGE_ADMIN_ROLE) {
     if (newFeeBps > 10_000) revert InvalidFeeSetting();
 
@@ -271,9 +310,10 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
   /// @dev Only callable by NUDGE_OPERATOR_ROLE
   function collectFeesFromCampaigns(address[] calldata campaigns) external onlyRole(NUDGE_OPERATOR_ROLE) {
     uint256 totalAmount;
-
+    // @audit info 如果是很多的活动呢？
     for (uint256 i = 0; i < campaigns.length; i++) {
       if (!isCampaign[campaigns[i]]) revert InvalidCampaign();
+      // q 获取每个活动的奖励，collectFees里面具有有转账行为
       totalAmount += NudgeCampaign(payable(campaigns[i])).collectFees();
     }
 
@@ -307,4 +347,6 @@ contract NudgeCampaignFactory is INudgeCampaignFactory, AccessControl {
 
     emit CampaignsUnpaused(campaigns);
   }
+
+  // q 为什么不支持暂停单个活动呢？
 }
