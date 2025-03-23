@@ -40,7 +40,6 @@ interface INudgeCampaignFactory is IAccessControl {
   function campaignAddresses(uint256) external view returns (address);
   function isCampaignPaused(address) external view returns (bool);
 
-  // q 部署活动地址，部署成功后，活动地址存储起来没有？
   function deployCampaign(
     uint32 holdingPeriodInSeconds,
     address targetToken,
@@ -54,7 +53,6 @@ interface INudgeCampaignFactory is IAccessControl {
     external
     returns (address);
 
-  // q 部署活动地址并且存钱，活动地址存储起来没有？
   function deployAndFundCampaign(
     uint32 holdingPeriodInSeconds,
     address targetToken,
@@ -70,7 +68,6 @@ interface INudgeCampaignFactory is IAccessControl {
     payable
     returns (address);
 
-  // q 获取活动地址需要这么多参数吗？
   function getCampaignAddress(
     uint32 holdingPeriodInSeconds,
     address targetToken,
@@ -86,14 +83,10 @@ interface INudgeCampaignFactory is IAccessControl {
     view
     returns (address);
 
-  // q 宝藏地址是什么？
   function updateTreasuryAddress(address newTreasury) external;
-  // q 什么fee？
   function updateFeeSetting(uint16 newFeeBps) external;
-  // q 积累活动费用功能吗？
   function collectFeesFromCampaigns(address[] calldata campaigns) external;
 
-  // e 暂停和解除暂停 活动
   function pauseCampaigns(address[] calldata campaigns) external;
   function unpauseCampaigns(address[] calldata campaigns) external;
 }

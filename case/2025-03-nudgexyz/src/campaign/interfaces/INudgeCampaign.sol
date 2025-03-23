@@ -19,7 +19,6 @@ interface INudgeCampaign is IBaseNudgeCampaign {
   error CannotRescueRewardToken();
 
   // Events
-  // q 数组变成了事件参数 ？？
   event ParticipationInvalidated(uint256[] pIDs);
   event RewardsWithdrawn(address to, uint256 amount);
   event FeesCollected(uint256 amount);
@@ -28,7 +27,6 @@ interface INudgeCampaign is IBaseNudgeCampaign {
   event TokensRescued(address token, uint256 amount);
 
   function collectFees() external returns (uint256);
-  // q 活动id会不会很多，能不能用极小的成本创建活动id，弄爆数组DOS攻击
   function invalidateParticipations(uint256[] calldata pIDs) external;
   function withdrawRewards(uint256 amount) external;
   function setIsCampaignActive(bool isActive) external;
@@ -36,9 +34,7 @@ interface INudgeCampaign is IBaseNudgeCampaign {
   function rescueTokens(address token) external returns (uint256);
 
   // View functions
-  // @audit info 多余的方法 ,注释掉后不会报错，并没有使用
-  // function getBalanceOfSelf(address token) external view returns (uint256);
-  // function getBalanceOfSelf(address token) external view returns (uint256);
+  function getBalanceOfSelf(address token) external view returns (uint256);
   function claimableRewardAmount() external view returns (uint256);
   function getRewardAmountIncludingFees(uint256 toAmount) external view returns (uint256);
   function calculateUserRewardsAndFees(uint256 rewardAmountIncludingFees)

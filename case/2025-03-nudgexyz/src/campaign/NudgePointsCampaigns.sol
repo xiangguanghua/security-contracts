@@ -84,8 +84,6 @@ contract NudgePointsCampaigns is INudgePointsCampaign, AccessControl {
   /// @param targetTokens Array of target tokens for each campaign
   /// @return Campaign[] memory Array of newly created campaigns
   /// @dev Array lengths must match, only callable by NUDGE_ADMIN_ROLE
-  // @audit info 数组如何保证对应关系
-  // @audit info 数组长度是否需要限制，是否会引发Dos攻击
   function createPointsCampaigns(
     uint256[] calldata campaignIds,
     uint32[] calldata holdingPeriods,

@@ -42,7 +42,6 @@ interface IBaseNudgeCampaign {
 
   // External functions
   // e 活动积分和活动实现该方法
-  // q 用户往活动里面充钱，还是从活动里面提钱？？
   function handleReallocation(
     uint256 campaignId,
     address userAddress,

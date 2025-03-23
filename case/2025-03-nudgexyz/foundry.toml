@@ -24,6 +24,14 @@
   fuzz = { runs = 10_000 }
   verbosity = 4
 
+[fuzz]
+seed = "0x100000"
+
+[invariant]
+fail_on_revert = false  # 设置为 false，即使发现错误也会继续运行
+runs = 100000             # 每次测试的运行次数
+depth = 100             # 每次测试的调用深度
+
 [etherscan]
   mainnet = { key = "${API_KEY_ETHERSCAN}" }
   sepolia = { key = "${API_KEY_ETHERSCAN}" }
